@@ -1,0 +1,6 @@
+<FilesMatch \.php$>
+	Deny from all
+</FilesMatch>
+<FilesMatch "download\.php|404\.php|index\.php">
+	Allow from all
+</FilesMatch>

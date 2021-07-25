@@ -1,0 +1,4 @@
+user-agent: *
+Disallow: /inc/
+Disallow: /lib/
+Sitemap: https://yofiel.com/sitemap.xml

@@ -1,0 +1,3 @@
+<FilesMatch \.zip$>
+deny from all
+</FilesMatch>
