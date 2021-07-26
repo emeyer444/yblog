@@ -90,6 +90,12 @@ function yLogout(){
 	header('Location: '.$_SERVER['REQUEST_URI']);
 }
 function yRefresh(){
+	$d = array_filter(glob($p.'*'), 'is_dir');
+	foreach (glob($p."*.gz") as $f){
+		unlink($f);
+		echo "Deleting ". $f ."...<br>\n";
+	}
+	
 	$crawled = array();
 	yCrawlSite(SITEURL, $crawled, 100);
 	$crawled[count($crawled)] = SITEURL;
@@ -105,6 +111,7 @@ function yRefresh(){
 	fclose($f);
 }
 function yCrawlSite($url, &$crawled, $depth){
+	yDelFiles(SITE_ROOT, '*.gz');
 	if ($depth == 0) return ($crawled);
 	$ch = curl_init($url);
 	curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -135,6 +142,22 @@ function yCrawlSite($url, &$crawled, $depth){
 				echo "NOTICE: Maximum depth reached <br>\n";  return($crawled); }
 		}
 	} else { echo "NOTICE: couid not open ". $url ."<br>\n"; return($crawled);}
+}
+function yDelFiles($path, $match){// deletes all files matching $match
+	$files = glob($path.$match);
+	foreach($files as $f){
+		if(is_file($f)){
+			unlink($f);
+			echo "Deleted ". $f ."...<br>\n";
+		}
+	}
+	$dirs = glob($path."*");
+	foreach($dirs as $d){
+		if(is_dir($d)){
+			$d = basename($d) . "/";
+			yDelFiles($path.$d, $match);
+		}
+	}
 }
 function ySetup(){
 }
