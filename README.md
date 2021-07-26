@@ -1,0 +1,5 @@
+Designed from the ground up to take advantage of the new and increasingly standardized features of HTML5, CSS3, and PHP7, Yofiel's Blog Creator is a lightweight tool that's faster and easer than most of the software out there already.  The W3C-validated, responsive page templates work consistently on Chrome, Safari, and Edge desktops and mobiles, but download quickly to the client in <15KB before gzip compression.
+
+Blog pages, menus, TOCs, and metadata for Google and Microsoft are automatically generated. Plugins provide insertion of complex media and other objects. The browser client requires no bulky and frequently buggy external libraries, such as jQuery, BootStrap, or MooTools. Currently yBlog has two optional libraries for the highlighter and pdfReader plugins. 
+
+After a creator unzips the files into a webserver directory and sets a single variable, Yofiel's Bblog Xreator immediately supports a feature-rich Website on MacOs, Microsoft 10 IIS, Xampp, Wampp, and most ISP Webservers. The zipfile for the entire system is <2MB, and available for free download on this site.
