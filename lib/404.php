@@ -4,7 +4,7 @@
 	$AVATAR		= "img/question.png";						//default=SITE_LOGO
 	$MENU_ORDER	= 0;					 	//default=1,0 = not menued
 //	$AUTHOR		= "Author";			 	//default=SITE_AUTHOR
-	$PAGE_TYPE	= "Website";				//Article (default), Blog, Website
+	$PAGE_TYPE	= "Website";			//Article (default), Blog, Website
 //	$STYLES		= "elegant");			//blue(default), none, box, elegant
 //	$SCRIPT		= "js";					//default=js
 //	$STYLESHEET = "var1";				//default=var1

@@ -2,7 +2,7 @@
 //--------------------------------------------------------------------------------
 // config.php. Site confoguration
 	define("REMOTE_SITE_URL" 		, "myserver.com");
-	define("LOCAL_ROOT_URL"  		, "localhost/yBlog");
+	define("LOCAL_ROOT_URL"  		, "localhost/yblog");
 	define("SITE_NAME"		 		, "My Server");
 	define("SITE_DESC"		 		, "yBlog Demo.");
 	define("SITE_AUTHOR"		 		, "Ernest Leonardo Meyer");
@@ -15,10 +15,10 @@ if(!isset($CODETHEME )){$CODETHEME  = 'erlang-dark';}
 if(!isset($STYLES	  	)){$STYLES	   = 'blue'			;}
 if(!isset($ANIMATE	)){$ANIMATE	   = true			;}
 if(!isset($MENU_ORDER)){$MENU_ORDER = 0;				;}
-//oddities
 $var_nav = "rgba(0,0,0,.66)";// needed in both css and javascript
 //--------------------------------------------------------------------------------------
 // yBlog magic. DON'T CHANGE!!
+//--------------------------------------------------------------------------------------
 if(!isset($TITLE     )){$TITLE      = SITE_NAME		;}
 if(!isset($DESC      )){$DESC		   = SITE_DESC		;}
 if(!isset($AUTHOR    )){$AUTHOR     = SITE_AUTHOR	;}
@@ -35,21 +35,21 @@ if(!defined('SITEURL')){
 		define("SITEURL"  	, PROTOCOL.LOCAL_ROOT_URL.'/'); 
 		define("ANALYTICS"	, "0");
 		define("ADOBE_KEY"	, "0");
-		define("ADOBE_EN" 	, false);
 		define("IS_LOCALHOST", true);
 	} else {
 		define("SITENAME" 	, "Yofiel");
 		define("SITEURL"  	, PROTOCOL.REMOTE_SITE_URL.'/');
 		define("ANALYTICS"	, GOOGLE_ANALYTICS_ID);
 		define("ADOBE_KEY"	, ADOBE_SDK_KEY);	
-		define("ADOBE_EN" 	, true);
 		define("IS_LOCALHOST", false);
 	}
 	define("PAGE_URL"	, PROTOCOL . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
-	define("PAGE_DIR" , substr(PAGE_URL, 0, strrpos(PAGE_URL, '/')).'/');
-}
-if(!isset($AVATAR)){	
-	$AVATAR = SHARING_LOGO;
-} else {	
-	$AVATAR = PAGE_DIR.$AVATAR;
-}
+	define("PAGE_TEST", dirname(PAGE_URL).'/');
+	if(strcasecmp(PAGE_TEST, SITEURL) != 0 && strcasecmp(PAGE_URL, SITEURL) !=0){	
+		define("PAGE_DIR" 	 , PAGE_TEST);
+		define("PAGE_DIR_REL" , str_replace(SITEURL, '', dirname(PAGE_URL)).'/');
+	} else {
+		define("PAGE_DIR"     , SITEURL);	
+		define("PAGE_DIR_REL" , '');	
+	} 
+}?>

@@ -17,9 +17,9 @@
 				--foc:#F69; /* focus on any clickable element */
 				--bg0:linear-gradient(180deg,#003 0%,#109 10%,#99c 100%);/* page bckgrnd */
 				--bg1:#369; /* article bckgrnd */
-				--bg2:#58b; /* menu, toc, and form bckgrnd */
-				--bg3:#258; /* js function bckgrnd */
-				--bg4:linear-gradient(to right,#258,#245,#258); /* toc and nested blocks */
+				--bg2:#285888; /* menu and form bckgrnd */
+				--bg3:#416; /* js function bckgrnd */
+				--bg4:linear-gradient(45deg,#147,#416); /* toc and nested blocks */
 				--drk:#333; /* dark background for welcome etc*/
 				--drkr:#222; /* dark background for welcome etc*/
 				--brd1w:2px; 
@@ -62,13 +62,13 @@
 	break;
 } 
 ?>
-		a,button,form.download>input,img{color:var(--lnk);padding:2px;transition:.5s}
-		a,button,form.download>input,img,nav a,.yClick{color:var(--lnk);text-decoration:none}
+		a,button,form.download>input,figure{transition:.5s}
+		a,button,form.download>input,figure,nav a,.yClick{color:var(--lnk);text-decoration:none}
 		a.active,#yLogo.active{background-color:var(--cur);text-decoration:none!important}
-		a,article,blockquote,button,dl,footer,img,form.download>input,main,section,table,.yClick{
+		a,article,blockquote,button,dl,figure,footer,form.download>input,main,section,table,.yClick{
 			-moz-border-radius:var(--rad);-webkit-border-radius:var(--rad);border-radius:var(--rad);
 			box-shadow:var(--shdw);box-sizing:border-box;display:block;overflow:hidden}
-		a,button,img,form.download>input,.yClick{border-color:var(--brd1);border-style:var(--brd1s);
+		a,button,figure,form.download>input,.yClick{border-color:var(--brd1);border-style:var(--brd1s);
 			border-width:var(--brd1w)}
 		article,blockquote{border-color:var(--brd2);border-style:var(--brd2s);
 			border-width:var(--brd2w)} 
@@ -76,7 +76,7 @@
 			border-width:var(--brd3w)} 
 		article,blockquote,main,section{background:var(--bg1);box-sizing:border-box}
 		article,main,section{height:100%;margin:0 auto;width:100%;min-height:700px;padding:8px}
-		#ySpacer{height:100%;margin:0 auto 12px;max-width:750px;padding:0;transition:.5s}
+		article blockquote,main blockquote,section blockquote{background:var(--bg4);margin:12px;text-align:left}
 		a:hover,button:hover,form.download>input:hover,.yClick:hover,#yLogo:hover{
 			background-color:var(--hov);cursor:pointer;text-decoration:var(--dec);transition:.7s}
 		a.active:hover,#yLogo.active:hover{background-color:var(--cur)!important;
@@ -89,13 +89,14 @@
 		blockquote{font:700 13px/20px 'Arial','Helvetica','sans-serif';margin:4px;padding:4px 8px;
 			quotes:none;text-align:center}
 		blockquote a,button,form.download>input{background:var(--bg2);display:block;margin:8px auto;padding:0;
-			text-align:center;width:400px}
-		article blockquote,main blockquote,section blockquote{background:var(--bg4);margin:12px;text-align:left}
+			text-align:center}
+		button,input{padding:8px}
 		body{background:var(--bg0);height:100%;overflow:hidden;overflow-y:auto;z-index:2}
 		body,html{box-sizing:border-box;color:var(--fg0);margin:0;padding:0}
 		b,h1,h2,h3,h4{font-family:'Arial Black',arial,sans-serif;font-weight:700}
 		code,details{color:var(--fg2);font-family:'Lucida Sans','Lucida Grande',sans-serif}
 		br{clear:both}
+		caption,figcaption{display:none}
 		code{word-wrap:break-word}
 		dd{clear:both;font:13px/18px arial,sans-serif;margin:4px 0 12px 8px;max-width:350px;
 			padding:4px 0;text-align:center}
@@ -114,11 +115,15 @@
 		dt{clear:none;float:right;margin:0;padding:4px 8px 8px 0}
 		dt,pre{font-size:13px;line-height:24px}
 		em{font-style:oblique;font-weight:700}
+		figure{background-color:var(--hov);display:block;margin:8px auto;padding:4px}
+		figure:hover{cursor:url(<?php echo SITEURL; ?>lib/img/magnify.png),auto}
+		figure:hover,#yLogo:hover{background-color:var(--brd1);border-color:var(--brd2)}
 		footer{height:100%;margin:0 auto 36px;max-width:750px;padding:0}
 		footer>table{margin:0}
 		form,#yMenuMin,#yMnuMax{box-sizing:border-box}
-		form.download>input{background-color:#4E84CC;box-sizing:border-box;clear:none;
-			font:13px/18px arial,sans-serif;margin:16px auto;max-width:90%;padding:8px;text-align:center}
+		form.download>input{background-color:--var(bg3);box-sizing:border-box;clear:none;
+			font:13px/18px arial,sans-serif;margin:16px auto;width:315px;max-width:90%;
+			padding:8px;text-align:center}
 		h1,h2,h3{color:var(--fg1);letter-spacing:2px;text-shadow:var(--shd2)}
 		h1{font-size:26px;line-height:33px;padding:8px 0 0}
 		h1{float:left;text-align:center}
@@ -135,12 +140,10 @@
 			letter-spacing:.75px;margin:0 0 8px;word-spacing:2px}
 		header{box-sizing:border-box;position:fixed;text-align:center;top:0;width:100%;z-index:10}
 		hr{clear:left;padding:8px 0;color:var(--fg2)}
-		html{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;transition:.5s}
+		html{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
 		i{font-style:oblique}
 		iframe{display:block;float:right}
-		img{display:block;margin:8px auto;padding:4px}
-		img:hover{cursor:url(<?php echo SITEURL; ?>lib/img/magnify.png),auto}
-		img:hover,#yLogo:hover{background-color:var(--brd1);border-color:var(--brd2)}
+		img{display:block;margin:0;padding:0}
 		label{display:block}
 		li ol,li ul,pre{margin:8px}
 		nav{-moz-border-radius-bottomleft:var(--rad2);-moz-border-radius-bottomright:var(--rad2);
@@ -163,7 +166,7 @@
 		section>table td{box-sizing:border-box;min-width:315px;width:50%}
 		section>table td>blockquote{margin:0 0 8px;padding:0}
 		section>table td>blockquote>h3{margin:0;padding:0}
-		section>table td>blockquote>h3>a{display:block;margin:0;max-width:315px;padding:8px}
+		section>table td>blockquote>h3>a{display:block;margin:0;padding:8px}
 		table{border-spacing:0;border-width:medium 0;box-sizing:border-box;
 			margin:8px 0 8px 8px;padding:0;text-align:left;width:auto}
 		table.date{float:right;font-style:italic;margin-top:0}
@@ -179,7 +182,7 @@
 		.center{float:none;margin:8px auto;text-align:center;width:100%}
 		.left{float:left;margin:8px}
 		.right{float:right;margin:8px}
-		.yClick{background:var(--bg3);color:var(--lnk)}
+		.yClick{background-color:var(--bg3);color:var(--lnk)}
 		.CodeMirror{margin:16px 8px}
 		#yAvatar{clear:left;float:none;margin:12px auto;width:150px}
 		#yCookie{background-color:var(--drkr);border-top:1px solid yellow;bottom:0;color:#fff;display:block;left:0;margin:0;padding:0;
@@ -195,6 +198,7 @@
 			background:var(--hov);border-top-left-radius:var(--rad2);border-top-right-radius:var(--rad2);
 			box-sizing:border-box;float:none;margin:2px auto 0px;max-width:430px;padding:2px 8px 4px;
 			text-align:center;width:100%}
+		#ySpacer{height:100%;margin:0 auto 12px;max-width:750px;padding:0}
 		#yStars{height:100%;left:0;position:fixed;top:0;width:100%;z-index:-1}
 		#yView{background-color:rgba(0,0,0,0.75);
 			background-image:url(<?php echo SITEURL; ?>lib/img/loading.gif);background-position:center;
@@ -203,9 +207,9 @@
 		#yView>#yimg{background:none;border:0;border-radius:0;box-shadow:none;height:100%;
 			margin:0 auto;max-width:100%;object-fit:contain;padding:0;width:100%}
 		#yView>#yimg:hover{cursor:move}
-		#yView>#ycell{height:40px;left:0;margin:0;padding:0;position:absolute;top:0;width:100%;z-index:110}
-		#ycell>#ycap{clear:none;display:block;font-family:sans-serif;line-height:36px;margin:0;
-			overflow:hidden;padding:0 8px;text-align:left;text-overflow:ellipsis;white-space:nowrap}
+		#yView>#ycell{height:60px;left:0;margin:0;padding:0;position:absolute;top:0;width:100%;z-index:110}
+		#ycell>#ycap{clear:none;display:block;font-family:sans-serif;line-height:40px;margin:0;
+			overflow:hidden;padding:8px;text-align:left;text-overflow:ellipsis;white-space:nowrap}
 		#yView>#ycell>#ynext,#yView>#ycell>#yprev,#yView>#ycell>#yshut{float:left;margin:4px 0 0 8px;width:80px}
 		}
 		@media screen and (max-width:639px) {
@@ -217,18 +221,24 @@
 			div.yFlex div{width:100%}
 			dl{float:none;margin:8px auto;text-align:center;width:100%}
 			dt{float:none;text-align:right}
-			iframe,img,.left,.right{float:none;margin:8px auto;max-width:90%}
+			iframe,figure,.left,.right{float:none;margin:8px auto;max-width:90%}
+			img{margin:8px auto}
 			li,ol,p,td,ul{margin-right:0!important}
 			p,li,td{clear:both;text-align:left!important}
 			h1{font-size:20px;line-height:26px}
 			h2,h3{font-size:18px;line-height:24px}
 			h4,h5,h6{font-size:16px;line-height:22px}
+			section>table td{width:100%!important}
 			section>table td:nth-child(2n){text-align:center!important;width:100%}
 			td{font-size:14px;line-height:19px}
 			#yAvatar{display:none}
 		}
+		@media screen and (max-width:480px) {
+			section>table td{width:100%!important}
+			section a,section h5{max-width:315px}
+		}
 		@media only print {
-			img{clear:left;float:left;margin:0 15px 15px 8px}
+			figure{clear:left;float:left;margin:0 15px 15px 8px}
 			dl,embed,footer,header,iframe,object,#avatar,#yNews,#yView{display:none}
 			table.date{display:none;font-style:italic}
 		}

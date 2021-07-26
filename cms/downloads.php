@@ -8,8 +8,8 @@
 include_once '../lib/yBlog.php';
 //-----------------------------------------------------------//?>
 <h2>Download</h2>
-<p>The beta .34 release of Yofiel's CMS is freely downloadable at this link without any license 
-restrictions:</p>
+<p>The beta .34 release of Yofiel's CMS is freely downloadable at this link under public-domain 
+MIT license which places no restrictions on its usage:</p>
 <?php download('cms.zip'); ?>
 <h2>Currently in Development</h2>
 <ul><li>PDF viewer in full-screen lightbox.

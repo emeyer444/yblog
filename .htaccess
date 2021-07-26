@@ -1,20 +1,24 @@
-DirectoryIndex index.php
+<filesMatch ".(php|js|css)$">
+	Header set Cache-Control "no-cache, private"
+</FilesMatch>
+<filesMatch ".(gif|ico|jpg|jpeg|png|pdf)$">
+	Header set Cache-Control "max-age=31536000, public"
+</filesMatch>
 RewriteEngine On
 <If "%{HTTP_HOST} == 'localhost'">
-
 		SetEnv MYHOST "localhost"
-		SetEnv MYDIR "/yBlog"
-
+		SetEnv MYDIR "/yblog"
 	RewriteCond %{HTTPS} on
 	RewriteRule (.*) http://localhost%{REQUEST_URI} [L]
 	ErrorDocument 403 http://%{ENV:MYHOST}%{ENV:MYDIR}/lib/404.php
 	ErrorDocument 404 http://%{ENV:MYHOST}%{ENV:MYDIR}/lib/404.php
 	Options +Indexes
+	php_flag display_errors 1
+	php_flag display_startup_errors 1
+	php_value error_reporting "E_ALL"
 </If>
 <Else>
-
-		SetEnv MYHOST "yofiel.com"
-
+		SetEnv MYHOST "myhost.com"
 	# // force to non-www
 	RewriteCond %{HTTP_HOST}^www.%{ENV:MYHOST} [NC]
 	RewriteRule ^(.*)$ https://%{ENV:MYHOST}/$1 [L,R=301]
@@ -23,11 +27,9 @@ RewriteEngine On
 	RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 	ErrorDocument 403 https://%{ENV:MYHOST}/lib/404.php
 	ErrorDocument 404 https://%{ENV:MYHOST}/lib/404.php
-	# // File moves
-	Redirect 301 /darwin.php /gnosticism/darwin.php
-	Redirect 301 /rights2.php /gnosticism/rights2.php
-	Redirect 301 /will.php /gnosticism/will.php
 	# // Security
+	ServerSignature Off
+	DirectoryIndex index.php
 	IndexIgnore *
 	Header always set Strict-Transport-Security "max-age=31536000"
 	Header set X-Frame-Options "DENY"
@@ -46,37 +48,16 @@ RewriteEngine On
 	RewriteCond %{REQUEST_URI} !^/(lib).* [NC]
 	RewriteCond %{HTTP_HOST} ^$
 	RewriteRule .? - [F,NS,L]
-	<IfModule mod_expires.c>
-		ExpiresActive On
-		ExpiresByType image/jpeg "access plus 1 year"
-		ExpiresByType image/gif "access plus 1 year"
-		ExpiresByType image/png "access plus 1 year"
-		ExpiresByType image/x-icon "access plus 1 year"
-		ExpiresByType application/javascript "access plus 1 month"
-		ExpiresByType application/pdf "access plus 1 month"
-		ExpiresByType text/javascript "access plus 1 month"
-		ExpiresByType text/x-php "access plus 30 minutes"
-		ExpiresByType text/css "access plus 30 minutes"
-	</IfModule>
-	<ifModule mod_headers.c> 
-		<filesMatch ".(gif|ico|jpg|jpeg|png)$">
-			Header set Cache-Control "max-age=31536000, public"
-		</filesMatch>
-		<filesMatch ".(php|js|css)$">
-			Header set Cache-Control "max-age=1800, public"
-		</FilesMatch>
-	</IfModule>
-	<ifmodule mod_deflate.c>
-		# // compression directives
-		AddOutputFilterByType DEFLATE image/svg+xml
-		AddOutputFilterByType DEFLATE application/javascript
-		AddOutputFilterByType DEFLATE application/x-javascript
-		AddOutputFilterByType DEFLATE image/x-icon
-		AddOutputFilterByType DEFLATE text/css
-		AddOutputFilterByType DEFLATE text/html
-		AddOutputFilterByType DEFLATE text/javascript
-		BrowserMatch ^Mozilla/4\.0[678] no-gzip
-		BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
-		Header append Vary User-Agent
-	</IfModule>
 </Else>
+<ifmodule mod_deflate.c>
+	# // compression directives
+	AddOutputFilterByType DEFLATE application/javascript
+	AddOutputFilterByType DEFLATE application/x-javascript
+	AddOutputFilterByType DEFLATE image/x-icon
+	AddOutputFilterByType DEFLATE text/css
+	AddOutputFilterByType DEFLATE text/javascript
+	BrowserMatch ^Mozilla/4\.0[678] no-gzip
+	BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+	Header append Vary User-Agent
+</IfModule>
+

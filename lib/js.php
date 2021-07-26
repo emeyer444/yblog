@@ -38,8 +38,7 @@
 							 scroll(0, 0);
 						}, 1);
 					ySite.yCookieInit();
-					ySite.yToc('H2','yLeader', 'right',
-						"(Click the images for a lightbox slideshow)");
+					/* ySite.yToc('H2','yLeader', 'right', "(Click the images for a lightbox slideshow)");*/
 					ySite.yNavInit();
 					ySite.yScroll();
 					ySite.yLightbox();
@@ -48,26 +47,25 @@
 			yCookieInit:function(){
 				var x 		 = document.createElement("div");
 				x.id			 = "yCookie";
-				var s			 = '<DIV ID="yCookie">';
-					 s			+= '<P>This site takes pleasure in cookies to enhance its experience.</P>';
+				var s			 = '<P>This site takes pleasure in cookies to enhance its experience.</P>';
 					 s			+= '<input type="checkbox" onclick="ySite.yCookieHide()"/>';
 					 s			+= '<label>Accept:</label>';
 				x.innerHTML  = s;
 				document.body.appendChild(x);
 				x = ySite.yCookieGet('Cookies');
 				if (x == ""){ 
-					document.cookie ='Cookies=0; max-age=31536000; path=/; SameSite=strict; secure';
+					document.cookie ='Cookies=0; max-age=31536000; path=/; SameSite=Strict; Secure';
 				} else if (x == 1){ 
 					ySite.id('yCookie').style.display = 'none';
 				}
 				x = ySite.yCookieGet('menuState');
 				if (x == ""){ 
-					ySite.yShow();				
-					document.cookie ='menuState=1; max-age=31536000; path=/; SameSite=strict, secure';
+					ySite.yShow(0);				
+					document.cookie ='menuState=1; max-age=31536000; path=/; SameSite=Strict; Secure';
 				} else if (x == 0){ 
-					ySite.yHide(); 
+					ySite.yHide(0); 
 				} else if (x == 1){ 
-					ySite.yShow(); 
+					ySite.yShow(0); 
 				}
 			},
 			yCookieGet:function(name){
@@ -107,7 +105,7 @@
 					x.className = 'anchor';
 					x				= tags[i].parentNode.insertBefore(x, tags[i]);
 					s			  += '<DD><A HREF="#' + y + '" ';
-					s			  += 'onclick="ySite.yHash(\'#' + y + '\',event);">'; 
+					s			  += 'onclick="ySite.yHash(\'#' + y + '\',1,event);">'; 
 					s			  += w + '</A></DD>';
 				}
 				if (note != null){
@@ -121,11 +119,11 @@
 			},
 			yNavInit:function(){
 				document.getElementById("yBtn").addEventListener("click",		function(){
-					ySite.yHash('#top', event);									} );
+					ySite.yHash('#top', 1, event);									} );
 				document.getElementById("yHideMenu").addEventListener("click",	function(){
-					 ySite.yCookieSet('menuState',0);ySite.yHide(); } );
+					 ySite.yCookieSet('menuState',0);ySite.yHide(1); } );
 				document.getElementById("yShowMenu").addEventListener("click",	function(){
-					 ySite.yCookieSet('menuState',1);ySite.yShow(); } );
+					 ySite.yCookieSet('menuState',1);ySite.yShow(1); } );
 				var current		= location.href;
 				var menuItems  = document.querySelectorAll('nav a');
 				var h				= "";
@@ -139,10 +137,10 @@
 			},
 			yHashOnLoad:function(){
 				if (window.location.hash){
-					ySite.yHash(location.hash, null);			
+					ySite.yHash(location.hash, 0, null);			
 				}
 			},
-			yHash:function(h, event){
+			yHash:function(h, spd, event){
 				var y;
 				if (event != null){
 					event.preventDefault();
@@ -150,30 +148,47 @@
 				if (h != '' && h != '#' && h != '#top'){
 					y = ySite.id(h.substring(1));
 					y = Math.floor(y.getBoundingClientRect().top +window.scrollY);
-					scrollTo({ top: y, left: 0, behavior: 'smooth' });
+					ySite.yScroll(spd);
+					if (spd==1)scrollTo({ top: y, left: 0, behavior: 'smooth' });
+					else scrollTo(y, 0);
 					history.pushState("", document.title, location.pathname + h);
-					ySite.yScroll();
 				} else {
-					ySite.yScroll();
-					scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+					ySite.yScroll(spd);
+					if (spd==1)scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+					else scrollTo(0, 0);
 					history.pushState("", document.title, location.pathname);
-					ySite.yScroll();
 				}
 			},
-			yMenuSize:function(){
-				setTimeout(function(){ 
-					var y = getComputedStyle(ySite.id('yNav')).height;
+			yMenuSize:function(x){
+				var y = getComputedStyle(ySite.id('yNav')).height;
+				if(x==0){
 					y = y.substring(0, y.length - 2);
 					y = parseInt(y, 10);
-					ySite.id("ySpacer").style.transform = 'translate(0,' + y + 'px)';
+					var z = ySite.id("ySpacer");
+					z.style.transition = '0s';
+					z.style.transform  = 'translate(0,' + y + 'px)';
 					var anchors = document.getElementsByClassName('anchor');
 					y = -y - 8;
 					for (var i = 0; i < anchors.length; i++) {
 						anchors[i].style.top = y	+ 'px';
 					}
-				 }, 550);
+				} else {
+					setTimeout(function(){ 
+						var y = getComputedStyle(ySite.id('yNav')).height;
+						y = y.substring(0, y.length - 2);
+						y = parseInt(y, 10);
+						var z = ySite.id("ySpacer");
+						z.style.transition = '0.5s';
+						z.style.transform  = 'translate(0,' + y + 'px)';
+						var anchors = document.getElementsByClassName('anchor');
+						y = -y - 8;
+						for (var i = 0; i < anchors.length; i++) {
+							anchors[i].style.top = y	+ 'px';
+						}
+					 }, 550);
+				}
 			},
-			yShow:function(){
+			yShow:function(x){
 				ySite.id('yHideMenu').style.display = 'inline-block';
 				ySite.id('yShowMenu').style.display = 'none';
 				var x = document.querySelectorAll('nav *');
@@ -186,9 +201,9 @@
 					x[e].style.padding 		= '12px 4px';
 					x[e].style.margin			= '0px';
 				}
-				ySite.yMenuSize();
+				ySite.yMenuSize(x);
 			},
-			yHide:function(){
+			yHide:function(x){
 				ySite.id('yHideMenu').style.display = 'none';
 				ySite.id('yShowMenu').style.display = 'inline-block';
 				var x = document.querySelectorAll('nav *');
@@ -201,7 +216,7 @@
 					x[e].style.padding 		= '0px';
 					x[e].style.margin			= '-8px';
 				}
-				ySite.yMenuSize();
+				ySite.yMenuSize(x);
 			},
 			yScroll:function(){
 				var n	 = document.getElementById('yNav');
@@ -219,7 +234,7 @@
 					t.style.borderWidth 	= '2px';
 					t.style.padding 		= '12px 4px';
 				}
-				ySite.yMenuSize();
+				ySite.yMenuSize(0);
 			},
 			yLightbox:function(){
 				if(document.readyState != 'interactive') return;
@@ -229,9 +244,9 @@
 				const x = document.createElement("div");
 				x.id		  = "yView";
 				var s	  	  = '<blockquote id="ycell">';
-						s	 += '<a id="yshut">Close</a>';
-						s	 += '<a id="yprev">Previous</a>';
-						s	 += '<a id="ynext">Next</a>';
+						s	 += '<div class="yClick" id="yshut">Close</div>';
+						s	 += '<div class="yClick" id="yprev">Previous</div>';
+						s	 += '<div class="yClick" id="ynext">Next</div>';
 						s	 += '<h4 id="ycap"></h4>';
 						s	 += '</blockquote>';
 						s	 += '<img id="yimg" src="" alt="">';
@@ -246,7 +261,7 @@
 				document.body.style='overflow:hidden';
 				ySite.id('yView').style.display = 'block';
 				ySite.id('ycap').innerHTML			= pic.getAttribute("alt");
-				ySite.id('yimg').src						= pic.getAttribute("src");
+				ySite.id('yimg').src						= pic.getAttribute("data-src");
 				pic.onerror && ySite.imgClose();
 				const L = pics.length -1;	
 				if (L == -1){
@@ -316,7 +331,7 @@
 				var e			= "";
 				for (var i = 0; i < sNum; i++){
 					e = snow[i];
-					sY[i] = Math.floor(parseInt(sY[i], 10) + spd * sSiz[i] + 1);
+					sY[i] = Math.floor(parseInt(sY[i], 10) + spd * sSiz[i]);
 					if ((sX[i] < ctr -350 )|| (sX[i] > ctr +350)){
 						if (sY[i] < h ){
 							e.style.top	= sY[i] + 'px';
@@ -343,9 +358,9 @@
 		 window.addEventListener("load",	function(){ySite.yHashOnLoad();});
 		<?php if ($ANIMATE){ ?>
 			('ontouchstart' in window || 'onmsgesturechange' in window)? 
-		null: 
+		  window.addEventListener("load",	function(){ySite.ySnow(20);	}):
 		  window.addEventListener("load",	function(){ySite.ySnow(200);	});
 		<?php } ?>
-		window.addEventListener("resize",	function(){ySite.yMenuSize();	});
+		window.addEventListener("resize",	function(){ySite.yMenuSize(1);	});
 		window.addEventListener("scroll",	function(){ySite.yScroll();		});
 	</script>
