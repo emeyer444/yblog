@@ -97,7 +97,7 @@ function yRefresh(){
 	}
 	
 	$crawled = array();
-	yCrawlSite(SITEURL, $crawled, 100);
+	yCrawlSite(SITEURL, $crawled, 100, true);
 	$crawled[count($crawled)] = SITEURL;
 	$s = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 	$s .= "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
@@ -110,8 +110,8 @@ function yRefresh(){
 	fwrite($f, $s);
 	fclose($f);
 }
-function yCrawlSite($url, &$crawled, $depth){
-	yDelFiles(SITE_ROOT, '*.gz');
+function yCrawlSite($url, &$crawled, $depth, $delFiles){
+	if($delFiles) yDelFiles(SITE_ROOT, '*.gz');
 	if ($depth == 0) return ($crawled);
 	$ch = curl_init($url);
 	curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -135,7 +135,7 @@ function yCrawlSite($url, &$crawled, $depth){
 						$i = count($crawled);
 						$crawled[$i] = $u;
 						$depth --;
-						yCrawlSite($u, $crawled, $depth);
+						yCrawlSite($u, $crawled, $depth, false);
 					}
 				} 
 			} else { 
